@@ -25,11 +25,10 @@ func setupPrometheusMetrics(srv *http.Server) error {
 
 	if err := srv.ListenAndServe(); err != http.ErrServerClosed {
 		// Error starting or closing listener:
-		fmt.Println("Ummmmm")
 		return fmt.Errorf("HTTP server ListenAndServe: %v", err)
 	}
 
-	fmt.Println("HTTP Server shutting down.")
+	fmt.Println("HTTP Server exiting.")
 	return nil
 }
 
@@ -61,7 +60,7 @@ func (m *metrics) shutdownMetrics() error {
 	fmt.Println("Http Server shutdown initiated.")
 	if err := m.prometheus.Shutdown(context.Background()); err != nil {
 		// Error from closing listeners, or context timeout:
-		return fmt.Errorf("HTTP server Shutdown: %v", err)
+		return fmt.Errorf("HTTP server Shutdown error: %v", err)
 	}
 	return nil
 }

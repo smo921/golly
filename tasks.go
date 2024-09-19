@@ -9,7 +9,7 @@ import (
 	"golang.org/x/sync/errgroup"
 )
 
-func startTaskManager(shutdown chan struct{}) (*errgroup.Group, error) {
+func startTaskManager(cancel context.CancelFunc) (*errgroup.Group, error) {
 	tasks, _ := errgroup.WithContext(context.Background())
 
 	// SIGINT handler
@@ -20,7 +20,7 @@ func startTaskManager(shutdown chan struct{}) (*errgroup.Group, error) {
 
 		fmt.Println("SIGINT received, shutting down.")
 
-		close(shutdown)
+		cancel()
 		return nil
 	})
 
